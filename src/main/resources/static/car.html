@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投诉管理</title>
+    <script src="//unpkg.com/vue@2/dist/vue.js"></script>
+    <script src="//unpkg.com/element-ui@2.15.14/lib/index.js"></script>
+    <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        .complaint-content {
+            width: 275px; /* 设置元素宽度 */
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden; /* 隐藏超出部分 */
+            text-overflow: ellipsis; /* 使用省略号代替超出部分 */
+            font-size: 13px;
+            color: deepskyblue;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-card shadow="always">
+        <div slot="header">
+            <span>投诉信息管理</span>
+        </div>
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>社区物业管理</el-breadcrumb-item>
+            <el-breadcrumb-item>核心业务处理</el-breadcrumb-item>
+            <el-breadcrumb-item>投诉信息管理</el-breadcrumb-item>
+        </el-breadcrumb>
+    </el-card>
+    <el-card shadow="always">
+        <el-form :inline="true" :model="param" class="demo-form-inline" size="small">
+            <el-form-item label="车辆类型:">
+                <el-select v-model="param.carTypeId" clearable placeholder="请选择" style="width: 180px;">
+                    <el-option v-for="type in catType" :label="type.typeName" :value="type.id"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="车票车牌号:">
+                <el-input v-model="param.carNumber" placeholder="请输入车牌号" style="width: 180px;">
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button-group>
+                    <el-button type="primary" icon="el-icon-search" @click="search">查询</el-button>
+                    <el-button type="success" icon="el-icon-circle-plus">添加</el-button>
+                    <el-button type="danger" icon="el-icon-delete">批量删除</el-button>
+                </el-button-group>
+                <el-button type="warning" icon="el-icon-s-flag" @click="exportToExcel">导出当前页</el-button>
+                <!--
+                 action: 上传地址
+                 multiple: 选多个文件
+                 limit: 限制上传个数
+                 name: 名字必须与 MultipartFile file 名字一样
+                 show-file-list: 隐藏上传文件列表
+                 accept: 限制文件类型 xls, xlsx
+                 on-success: 上传成功的回调函数
+                 -->
+                <el-upload style="display: inline; margin-left: 10px;"
+                           :on-success="handleSuccess"
+                           :show-file-list="false"
+                           accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                           name="file"
+                           action="/complaint/importExcel">
+                    <el-button type="primary" icon="el-icon-upload">导入Excel</el-button>
+                </el-upload>
+            </el-form-item>
+        </el-form>
+        <el-table :data="pageInfo.records" border>
+            <el-table-column type="selection"></el-table-column>
+            <el-table-column label="车辆类型" prop="typeName" ></el-table-column>
+            <el-table-column label="车牌号" prop="carNumber" ></el-table-column>
+            <el-table-column label="车架号" prop="frameNumber" ></el-table-column>
+            <el-table-column label="电机号" prop="motorNumber" ></el-table-column>
+            <el-table-column label="上牌日期" prop="dateRegistration"></el-table-column>
+            <el-table-column label="车辆状态" width="120">
+                <template slot-scope="scope">
+                    <el-tag :type="scope.row.state === 1 ? 'success' : 'danger'" disable-transitions>
+                        {{ scope.row.state === 1 ? '闲置' : '租赁'}}
+                    </el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作">
+                <template slot-scope="scope">
+                    <el-button-group>
+                        <el-button type="danger" icon="el-icon-delete" size="small"
+                                   @click="deleteItem(scope.row)">删除
+                        </el-button>
+                        <el-button  size="small">处理
+                        </el-button>
+                    </el-button-group>
+                </template>
+            </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination style="margin-top: 10px" background @size-change="handleSizeChange"
+                       @current-change="handleCurrentChange" :current-page="pageInfo.current" :page-sizes="[5, 10, 15]"
+                       :page-size="pageInfo.size" layout="total, sizes, prev, pager, next, jumper"
+                       :total="pageInfo.total">
+        </el-pagination>
+    </el-card>
+</div>
+<script type="text/javascript">
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                //一页数据对象
+                pageInfo: {},
+                pageNum: 1,
+                pageSize: 5,
+                //提交参数对象
+                param:{
+                    carNumber : "",
+                    carTypeId: "",
+                },
+
+
+                multipleSelection: [],
+                //投诉类型
+                catType: []
+            }
+        },
+        methods: {
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+            },
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+                this.pageSize = val;
+                this.findByCondition();
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+                this.pageNum = val;
+                this.findByCondition();
+            },
+            search() {
+                this.pageNum = 1;
+                this.findByCondition();
+            },
+            //分页查询
+            findByCondition() {
+                const queryParams = new URLSearchParams(this.param);
+                axios.get(`/car?${queryParams}&page=${this.pageNum}&size=${this.pageSize}`, ).then(resp => {
+                    this.pageInfo = resp.data;
+                });
+            },
+            //查询所有的投诉类型
+            findcatType() {
+                axios.get("/carType/all").then(resp => {
+                    this.catType = resp.data;
+                });
+            },
+            //导出Excel
+            exportToExcel() {
+                //将一个JS对象转成查询字符串的格式
+                const queryParams = new URLSearchParams(this.param);
+                //访问地址：/complaint/exportToExcel?pageNum=1&pageSize=5&typeId=5&status=1
+                location.href = `/complaint/exportToExcel?${queryParams}`;
+            },
+            //上传成功
+            handleSuccess(resp) {
+                this.$message.success(resp);
+                //重新加载数据
+                this.findByCondition();
+            }
+        },
+        mounted() {
+            this.findcatType();
+            this.findByCondition();
+        }
+    });
+</script>
+</body>
+</html>

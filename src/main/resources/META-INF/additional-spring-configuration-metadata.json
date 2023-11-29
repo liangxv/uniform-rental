@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "server.devtools.restart.enabled",
+      "type": "java.lang.String",
+      "description": "Description for server.devtools.restart.enabled."
+    },
+    {
+      "name": "server.devtools.restart.additional-paths",
+      "type": "java.lang.String",
+      "description": "Description for server.devtools.restart.additional-paths."
+    }
+  ] }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>图片上传</title>
+    <script src="//unpkg.com/vue@2/dist/vue.js"></script>
+    <script src="//unpkg.com/element-ui@2.15.14/lib/index.js"></script>
+    <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="//unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+</head>
+<body>
+<div id="app">
+    <!--
+    ref: 引用当前上传组件对象
+    action：上传到服务器地址
+    auto-upload：是否自动上传，默认是true
+    on-success 上传成功以后的回调函数
+    name：和后台服务器MultipartFile接口形参的名字一样
+    accept 限制上传文件的类型
+    -->
+    <el-upload
+            ref="upload"
+            action="/picture/upload"
+            name="picture"
+            :show-file-list="false"
+            accept="image/png, image/jpeg, image/gif, image/jpg"
+            :on-success="uploadSuccess"
+            :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+            <el-button style="margin-left: 10px;" size="small" type="success"
+                       @click="submitUpload">上传到服务器</el-button>
+    </el-upload>
+    <!-- 显示图片 -->
+    <el-image
+            style="width: 400px; height: 350px"
+            :src="url"
+            fit="contain"></el-image>
+</div>
+<script type="text/javascript">
+    let vm = new Vue({
+        el: "#app",
+        data() {
+            return {
+                url: ''
+            }
+        },
+        methods: {
+            //上传按钮
+            submitUpload() {
+                this.$refs.upload.submit();
+            },
+            //上传成功后的回调函数：响应对象(服务返回数据)，文件对象，文件列表
+            uploadSuccess(response, file, fileList) {
+                //在控制台显示
+                console.log(response, file, fileList);
+                this.$message.success('文件上传成功');
+                //回显图片
+                this.url = "/img/" + response;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

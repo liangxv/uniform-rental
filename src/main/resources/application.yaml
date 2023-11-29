@@ -1,0 +1,26 @@
+server:
+  port: 80
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署，false即不开启热部署
+      # 指定热部署的目录，静态页面如果在public或static等目录下，则不需要设置
+      additional-paths: src/main/java,src/main/resources
+# 配置数据源
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/uniform_rental_system?characterEncoding=utf8
+    username: root
+    password: root
+    # 指定连接池类型
+
+upload:
+  path: E:/image/
+
+mybatis-plus:
+  global-config:
+    db-config:
+      # 逻辑删除为1
+      logic-delete-value: 1
+      # 没有逻辑删除为0
+      logic-not-delete-value: 0
+  mapper-locations: classpath*:/mapper/**/*.xml
