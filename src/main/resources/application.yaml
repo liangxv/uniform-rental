@@ -23,4 +23,6 @@ mybatis-plus:
       logic-delete-value: 1
       # 没有逻辑删除为0
       logic-not-delete-value: 0
+      id-type: auto
+
   mapper-locations: classpath*:/mapper/**/*.xml
