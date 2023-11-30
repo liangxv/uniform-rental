@@ -29,8 +29,8 @@ public class ImportExcelListener<T> extends AnalysisEventListener<T> {
     }
 
     //获取插入的行数
-    public boolean getRow() {
-        return row;
+    public Integer getRow() {
+        return list.size();
     }
 }
 
