@@ -2,6 +2,8 @@ package com.woniuxy.uniformrental.entity;
 
 import java.util.Date;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 
 /**
@@ -15,6 +17,7 @@ public class CarMaintenance extends Model<CarMaintenance> {
 
     private Long id;
 //保养日期
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date maintenanceDate;
 //保养等级 1,2,3级
     private Long maintenanceGrade;

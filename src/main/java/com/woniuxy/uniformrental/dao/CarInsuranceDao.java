@@ -1,6 +1,6 @@
 package com.woniuxy.uniformrental.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import com.woniuxy.uniformrental.entity.CarInsurance;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2023-11-27 19:25:02
  */
 @Mapper
-public interface CarInsuranceDao extends BaseMapper<CarInsurance> {
+public interface CarInsuranceDao extends MPJBaseMapper<CarInsurance> {
 
 }
 

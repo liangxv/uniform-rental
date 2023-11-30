@@ -1,6 +1,5 @@
 package com.woniuxy.uniformrental.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.yulichang.base.MPJBaseMapper;
 import com.woniuxy.uniformrental.entity.Car;
 import org.apache.ibatis.annotations.Mapper;

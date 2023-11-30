@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CarServiceImpl extends ServiceImpl<CarDao, Car> implements CarService {
-    public CarServiceImpl() {
-    }
 
     @Autowired
     CarDao carDao;

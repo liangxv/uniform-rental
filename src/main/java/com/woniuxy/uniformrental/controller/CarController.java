@@ -1,6 +1,7 @@
 package com.woniuxy.uniformrental.controller;
 
 import com.alibaba.excel.EasyExcel;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.woniuxy.uniformrental.dto.CarDto;
 import com.woniuxy.uniformrental.entity.Car;
@@ -33,6 +34,14 @@ public class CarController {
                                              @RequestParam(required = false) String carNumber){
         return ResponseEntity
                 .ok(carService.carPage(page,size, carTypeId,carNumber));
+    }
+
+    @GetMapping("/findByNumber")
+    public ResponseEntity<List<Car>> find(String  carNumber){
+        LambdaQueryWrapper<Car> wrapper =  new LambdaQueryWrapper<>();
+        wrapper.like(Car::getCarNumber,carNumber);
+        List<Car> list = carService.list(wrapper);
+        return ResponseEntity.ok(list);
     }
 
     @PostMapping
