@@ -6,7 +6,6 @@ import com.woniuxy.uniformrental.dto.CarDto;
 import com.woniuxy.uniformrental.entity.Car;
 import com.woniuxy.uniformrental.listener.ImportExcelListener;
 import com.woniuxy.uniformrental.service.CarService;
-import com.woniuxy.uniformrental.service.impl.CarServiceImpl;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
@@ -18,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/car")
@@ -55,11 +52,11 @@ public class CarController {
 
     @SneakyThrows
     @PostMapping("/importExcel")
-    public ResponseEntity<String> importExcel(MultipartFile file) throws IOException {
+    public ResponseEntity<String> importExcel(MultipartFile file) {
         //1.获取输入流
         InputStream inputStream = file.getInputStream();
         //2.创建Excel监听器
-        ImportExcelListener listener = new ImportExcelListener(Car.class, CarServiceImpl.class);
+        ImportExcelListener<Car> listener = new ImportExcelListener<>();
         //3.读取：输入流，实体类对象，监听器对象
         EasyExcel.read(inputStream, Car.class, listener).sheet().doRead();
         return ResponseEntity.ok("成功导入" + listener.getRow() + "条数据");
