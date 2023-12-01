@@ -3,6 +3,8 @@ package com.woniuxy.uniformrental.entity;
 import java.util.Date;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
+import lombok.Getter;
 
 import java.io.Serializable;
 
@@ -12,7 +14,9 @@ import java.io.Serializable;
  * @author makejava
  * @since 2023-11-27 19:26:10
  */
+
 @SuppressWarnings("serial")
+@Data
 public class CarYearlyInspection extends Model<CarYearlyInspection> {
 
     private Long id;
@@ -35,77 +39,7 @@ public class CarYearlyInspection extends Model<CarYearlyInspection> {
     private Long carId;
 
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getMaintenanceDate() {
-        return maintenanceDate;
-    }
-
-    public void setMaintenanceDate(Date maintenanceDate) {
-        this.maintenanceDate = maintenanceDate;
-    }
-
-    public String getOperatingMileage() {
-        return operatingMileage;
-    }
-
-    public void setOperatingMileage(String operatingMileage) {
-        this.operatingMileage = operatingMileage;
-    }
-
-    public String getYearlyInspectionIdentificationName() {
-        return yearlyInspectionIdentificationName;
-    }
-
-    public void setYearlyInspectionIdentificationName(String yearlyInspectionIdentificationName) {
-        this.yearlyInspectionIdentificationName = yearlyInspectionIdentificationName;
-    }
-
-    public String getYearlyInspectionIdentification() {
-        return yearlyInspectionIdentification;
-    }
-
-    public void setYearlyInspectionIdentification(String yearlyInspectionIdentification) {
-        this.yearlyInspectionIdentification = yearlyInspectionIdentification;
-    }
-
-    public Long getMaintenanceState() {
-        return maintenanceState;
-    }
-
-    public void setMaintenanceState(Long maintenanceState) {
-        this.maintenanceState = maintenanceState;
-    }
-
-    public String getYearlyInspectionReminder() {
-        return yearlyInspectionReminder;
-    }
-
-    public void setYearlyInspectionReminder(String yearlyInspectionReminder) {
-        this.yearlyInspectionReminder = yearlyInspectionReminder;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public Long getCarId() {
-        return carId;
-    }
-
-    public void setCarId(Long carId) {
-        this.carId = carId;
-    }
 
     /**
      * 获取主键值
