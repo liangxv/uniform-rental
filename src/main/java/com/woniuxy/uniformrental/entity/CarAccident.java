@@ -1,10 +1,10 @@
 package com.woniuxy.uniformrental.entity;
 
-import java.util.Date;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (CarAccident)表实体类
@@ -16,26 +16,26 @@ import java.io.Serializable;
 public class CarAccident extends Model<CarAccident> {
 
     private Long id;
-//事故日期
+    //事故日期
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date accidentDate;
-//理赔金额
+    //理赔金额
     private Double claimsAmount;
-//损失金额
+    //损失金额
     private Double lossAmount;
-//事故处理情况 0:未处理 1:已处理
+    //事故处理情况 0:未处理 1:已处理
     private Long treatmentSituation;
-//赔偿金到位情况 0:未到位 1:已到位
+    //赔偿金到位情况 0:未到位 1:已到位
     private Long compensationSituation;
-//运营里程数
+    //运营里程数
     private String operatingMileage;
-//事故原因
+    //事故原因
     private String accidentCause;
-//附件名称
+    //附件名称
     private String attachmentUploadName;
-//附件
+    //附件
     private String attachmentUpload;
-//外键id
+    //外键id
     private Long carId;
 
 

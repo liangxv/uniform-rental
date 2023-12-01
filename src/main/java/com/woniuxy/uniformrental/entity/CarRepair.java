@@ -1,10 +1,10 @@
 package com.woniuxy.uniformrental.entity;
 
-import java.util.Date;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (CarRepair)表实体类
@@ -14,22 +14,22 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class CarRepair extends Model<CarRepair> {
-//id
+    //id
     private Long id;
-//故障日期
+    //故障日期
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date maintenanceDate;
-//维修等级 1,2,3级
+    //维修等级 1,2,3级
     private Long maintenanceGrade;
-//维修金额
+    //维修金额
     private Double maintenanceAmount;
-//运营里程数
+    //运营里程数
     private String operatingMileage;
-//维修状态 0:未维修 1:已维修 2:维修中
+    //维修状态 0:未维修 1:已维修 2:维修中
     private Long maintenanceState;
-//故障原因
+    //故障原因
     private String causeFailure;
-//外键
+    //外键
     private Long carId;
 
 

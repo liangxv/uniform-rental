@@ -1,6 +1,7 @@
 package com.woniuxy.uniformrental.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
 
 /**
@@ -11,11 +12,11 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class User extends Model<User> {
-//主键id
+    //主键id
     private Long id;
-//登录名
+    //登录名
     private String username;
-//密码
+    //密码
     private String password;
 
 
