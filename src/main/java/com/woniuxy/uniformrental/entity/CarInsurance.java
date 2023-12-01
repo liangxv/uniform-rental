@@ -1,8 +1,10 @@
 package com.woniuxy.uniformrental.entity;
 
-import java.util.Date;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (CarInsurance)表实体类
@@ -12,21 +14,23 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class CarInsurance extends Model<CarInsurance> {
-//id
+    //id
     private Long id;
-//保险单号
+    //保险单号
     private String policyNumber;
-//保险公司名称
+    //保险公司名称
     private String insuranceCompany;
-//投保日期
+    //投保日期
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date insuranceDate;
-//截止日期
+    //截止日期
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date deadlineDate;
-//运营里程数
+    //运营里程数
     private String operatingMileage;
-//当前投保状态 0:未投保1:已投保 2:已到期
+    //当前投保状态 0:未投保1:已投保 2:已到期
     private Long insuranceState;
-//外键id
+    //外键id
     private Long carId;
 
 
