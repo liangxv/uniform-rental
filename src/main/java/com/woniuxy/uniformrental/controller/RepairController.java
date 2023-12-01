@@ -25,16 +25,20 @@ public class RepairController {
     public ResponseEntity<Page<CarRepair>> list(@RequestParam(defaultValue = "1")Integer page,
                                                 @RequestParam(defaultValue = "5")Integer size,
                                                 @RequestParam(required = false) Integer state){
+        // 创建LambdaQueryWrapper对象，用于构建查询条件
         LambdaQueryWrapper<CarRepair> wrapper = new LambdaQueryWrapper<>();
+        // 如果state参数不为空，则添加查询条件
         if (state != null){
             wrapper.eq(CarRepair::getMaintenanceState, state);
         }
+        // 返回分页查询结果
         return ResponseEntity
                 .ok(carRepairService.page(new Page<>(page, size),wrapper));
     }
 
     @PostMapping
     public ResponseEntity<Boolean> add(@RequestBody CarRepair carRepair){
+        // 返回添加结果
         return
                 ResponseEntity.ok(carRepairService.save(carRepair));
     }
@@ -42,11 +46,13 @@ public class RepairController {
     @DeleteMapping
     public ResponseEntity
             <Boolean> delete(@RequestParam("id")Long id){
+        // 返回删除结果
         return ResponseEntity.ok(carRepairService.removeById(id));
     }
 
     @PutMapping
     public ResponseEntity<Boolean> update(@RequestBody CarRepair carRepair){
+        // 返回更新结果
         return ResponseEntity.ok(carRepairService.updateById(carRepair));
     }
 

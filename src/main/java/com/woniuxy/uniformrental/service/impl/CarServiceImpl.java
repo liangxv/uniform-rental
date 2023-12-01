@@ -25,17 +25,24 @@ public class CarServiceImpl extends ServiceImpl<CarDao, Car> implements CarServi
 
     @Override
     public Page<CarDto> carPage(Integer pageNum, Integer pageSize, Integer carTyped, String carNumber) {
+        // 创建MPJLambdaWrapper对象，用于构建查询条件
         MPJLambdaWrapper<Car> wrapper = new MPJLambdaWrapper<Car>()
+                // 查询Car表中的所有字段
                 .selectAll(Car.class)
+                // 查询CarType表中的typeName字段
                 .select(CarType::getTypeName)
+                // 左连接查询CarType表
                 .leftJoin(CarType.class, CarType::getId, Car::getCarTypeId);
+        // 如果传入的carTyped参数不为空，则添加查询条件
         if (carTyped != null) {
             wrapper.eq(Car::getCarTypeId, carTyped);
         }
-        if (carNumber != null && !carNumber.trim().isEmpty()){
-            wrapper.like(Car::getCarNumber,carNumber.trim());
+        // 如果传入的carNumber参数不为空，则添加查询条件
+        if (carNumber != null && !carNumber.trim().isEmpty()) {
+            wrapper.like(Car::getCarNumber, carNumber.trim());
         }
-        return carDao.selectJoinPage(new Page<>(pageNum,pageSize),CarDto.class,wrapper);
+        // 调用carDao的selectJoinPage方法，查询数据，并返回Page对象
+        return carDao.selectJoinPage(new Page<>(pageNum, pageSize), CarDto.class, wrapper);
     }
 }
 

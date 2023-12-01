@@ -32,22 +32,26 @@ public class AccidentController {
                                                   @RequestParam(defaultValue = "5")Integer size,
                                                   @RequestParam(required = false) String frameNumber,
                                                   @RequestParam(required = false) String carNumber){
+        //根据参数获取事故列表
         return ResponseEntity
                 .ok(carAccidentService.accidentPage(page,size, frameNumber,carNumber));
     }
 
     @PostMapping
     public ResponseEntity<Boolean> save(@RequestBody CarAccident carAccident){
+        //保存事故
         return ResponseEntity.ok(carAccidentService.save(carAccident));
     }
 
     @DeleteMapping
     public ResponseEntity<Boolean> delete(@RequestParam Long id){
+        //根据id删除事故
         return ResponseEntity.ok(carAccidentService.removeById(id));
     }
 
     @PutMapping
     public ResponseEntity<Boolean> update(@RequestBody CarAccident carAccident){
+        //更新事故
         return ResponseEntity.ok(carAccidentService.updateById(carAccident));
     }
 

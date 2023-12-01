@@ -2,6 +2,8 @@ package com.woniuxy.uniformrental.entity;
 
 import java.util.Date;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 
 /**
@@ -15,6 +17,7 @@ public class CarAccident extends Model<CarAccident> {
 
     private Long id;
 //事故日期
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date accidentDate;
 //理赔金额
     private Double claimsAmount;

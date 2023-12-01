@@ -13,6 +13,7 @@ public class WebUploadConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //添加一个资源处理器，用于处理图片
         registry.addResourceHandler("/img/**").addResourceLocations("file:" +
                 uploadPath);
 

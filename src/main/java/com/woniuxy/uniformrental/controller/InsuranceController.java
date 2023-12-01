@@ -31,22 +31,26 @@ public class InsuranceController {
                                                    @RequestParam(defaultValue = "5")Integer size,
                                                    @RequestParam(required = false) String frameNumber,
                                                    @RequestParam(required = false) String carNumber){
+        // 根据页码、每页数量、车牌号和帧号获取保险信息
         return ResponseEntity
                 .ok(carInsuranceService.insurancePage(page,size, frameNumber,carNumber));
     }
 
     @PostMapping
     public ResponseEntity<Boolean> save(@RequestBody CarInsurance carInsurance){
+        // 保存保险信息
         return ResponseEntity.ok(carInsuranceService.save(carInsurance));
     }
 
     @DeleteMapping
     public ResponseEntity<Boolean> delete(@RequestParam Long id){
+        // 根据id删除保险信息
         return ResponseEntity.ok(carInsuranceService.removeById(id));
     }
 
     @PutMapping
     public ResponseEntity<Boolean> update(@RequestBody CarInsurance carInsurance){
+        // 根据id更新保险信息
         return ResponseEntity.ok(carInsuranceService.updateById(carInsurance));
     }
 

@@ -32,12 +32,14 @@ public class CarController {
                                              @RequestParam(defaultValue = "5")Integer size,
                                              @RequestParam(required = false) Integer carTypeId,
                                              @RequestParam(required = false) String carNumber){
+        //根据参数page，size，carTypeId，carNumber查询车辆信息
         return ResponseEntity
                 .ok(carService.carPage(page,size, carTypeId,carNumber));
     }
 
     @GetMapping("/findByNumber")
     public ResponseEntity<List<Car>> find(String  carNumber){
+        //根据车辆编号查询车辆信息
         LambdaQueryWrapper<Car> wrapper =  new LambdaQueryWrapper<>();
         wrapper.like(Car::getCarNumber,carNumber);
         List<Car> list = carService.list(wrapper);
@@ -46,16 +48,19 @@ public class CarController {
 
     @PostMapping
     public ResponseEntity<Boolean> save(@RequestBody  Car car){
+        //新增车辆信息
         return ResponseEntity.ok(carService.save(car));
     }
 
     @DeleteMapping
     public ResponseEntity<Boolean> delete(@RequestParam Long id){
+        //根据id删除车辆信息
         return ResponseEntity.ok(carService.removeById(id));
     }
 
     @PutMapping
     public ResponseEntity<Boolean> update(@RequestBody Car car){
+        //根据id更新车辆信息
         return ResponseEntity.ok(carService.updateById(car));
     }
 

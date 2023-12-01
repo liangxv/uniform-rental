@@ -24,20 +24,28 @@ public class CarMaintenanceServiceImpl extends ServiceImpl<CarMaintenanceDao, Ca
     CarMaintenanceDao carMaintenanceDao;
 
     @Override
-    public Page<MaintenanceDto> maintenancePage(Integer pageNum, Integer pageSize, String frameNumber, String carNumber, Integer state) {
+  public Page<MaintenanceDto> maintenancePage(Integer pageNum, Integer pageSize, String frameNumber, String carNumber, Integer state) {
+        // 创建MPJLambdaWrapper对象，用于构建查询条件
         MPJLambdaWrapper<CarMaintenance> wrapper = new MPJLambdaWrapper<CarMaintenance>()
+                // 查询CarMaintenance表中的所有字段
                 .selectAll(CarMaintenance.class)
+                // 查询Car表中的carNumber和frameNumber字段
                 .select(Car::getCarNumber, Car::getFrameNumber)
+                // 左连接Car表，查询CarMaintenance表中的carId字段
                 .leftJoin(Car.class, Car::getId, CarMaintenance::getCarId);
+        // 如果carNumber不为空，则添加查询条件
         if (carNumber != null && !carNumber.trim().isEmpty()) {
             wrapper.like(Car::getCarNumber, carNumber.trim());
         }
+        // 如果frameNumber不为空，则添加查询条件
         if (frameNumber != null && !frameNumber.trim().isEmpty()) {
             wrapper.like(Car::getFrameNumber, frameNumber.trim());
         }
+        // 如果state不为空，则添加查询条件
         if (state != null){
             wrapper.eq(CarMaintenance::getMaintenanceState, state);
         }
+        // 返回查询结果，并使用MaintenanceDto类进行转换
         return carMaintenanceDao.selectJoinPage(new Page<>(pageNum,pageSize), MaintenanceDto.class,wrapper);
     }
 

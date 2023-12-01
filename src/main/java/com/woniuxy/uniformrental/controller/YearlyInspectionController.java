@@ -34,22 +34,26 @@ public class YearlyInspectionController {
                                                           @RequestParam(defaultValue = "5")Integer size,
                                                           @RequestParam(required = false) String frameNumber,
                                                           @RequestParam(required = false) String carNumber){
+        // 根据参数返回分页数据
         return ResponseEntity
                 .ok(yearlyInspectionService.yearlyInspectionPage(page,size, frameNumber,carNumber));
     }
 
     @PostMapping
     public ResponseEntity<Boolean> save(@RequestBody CarYearlyInspection carYearlyInspection){
+        // 保存数据
         return ResponseEntity.ok(yearlyInspectionService.save(carYearlyInspection));
     }
 
     @DeleteMapping
     public ResponseEntity<Boolean> delete(@RequestParam Long id){
+        // 根据id删除数据
         return ResponseEntity.ok(yearlyInspectionService.removeById(id));
     }
 
     @PutMapping
     public ResponseEntity<Boolean> update(@RequestBody CarYearlyInspection carYearlyInspection){
+        // 根据id更新数据
         return ResponseEntity.ok(yearlyInspectionService.updateById(carYearlyInspection));
     }
 

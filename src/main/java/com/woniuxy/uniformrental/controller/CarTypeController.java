@@ -23,32 +23,34 @@ public class CarTypeController {
     CarTypeService carTypeService;
 
     @GetMapping
-    public ResponseEntity<Page<CarType>> list(@RequestParam(defaultValue = "1")Integer page,
-                                              @RequestParam(defaultValue = "5")Integer size){
+    public ResponseEntity<Page<CarType>> list(@RequestParam(defaultValue = "1") Integer page,
+                                              @RequestParam(defaultValue = "5") Integer size) {
+        // 返回分页的CarType列表
         return ResponseEntity
                 .ok(carTypeService.page(new Page<>(page, size)));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<CarType>> getAll(){
-        return
-                ResponseEntity.ok(carTypeService.list());
+    public ResponseEntity<List<CarType>> getAll() {
+        // 返回所有的CarType列表
+        return ResponseEntity.ok(carTypeService.list());
     }
 
     @PostMapping
-    public ResponseEntity<Boolean> add(@RequestBody CarType carType){
-        return
-                ResponseEntity.ok(carTypeService.save(carType));
+    public ResponseEntity<Boolean> add(@RequestBody CarType carType) {
+        // 添加CarType
+        return ResponseEntity.ok(carTypeService.save(carType));
     }
 
     @DeleteMapping
     public ResponseEntity
-    <Boolean> delete(@RequestParam("id")Long id){
+            <Boolean> delete(@RequestParam("id") Long id) {
+        // 根据id删除CarType
         return ResponseEntity.ok(carTypeService.removeById(id));
     }
 
     @PutMapping
-    public ResponseEntity<Boolean> update(@RequestBody CarType carType){
+    public ResponseEntity<Boolean> update(@RequestBody CarType carType) {
         return ResponseEntity.ok(carTypeService.updateById(carType));
     }
 

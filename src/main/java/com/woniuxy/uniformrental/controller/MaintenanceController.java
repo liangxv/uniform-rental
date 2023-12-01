@@ -31,22 +31,26 @@ public class MaintenanceController {
                                                      @RequestParam(required = false) String frameNumber,
                                                      @RequestParam(required = false) String carNumber,
                                                      @RequestParam(required = false) Integer state){
+        //获取分页信息，根据参数返回分页信息
         return ResponseEntity
                 .ok(carMaintenanceService.maintenancePage(page,size, frameNumber,carNumber,state));
     }
 
     @PostMapping
     public ResponseEntity<Boolean> save(@RequestBody CarMaintenance carMaintenance){
+        //保存车辆维护信息
         return ResponseEntity.ok(carMaintenanceService.save(carMaintenance));
     }
 
     @DeleteMapping
     public ResponseEntity<Boolean> delete(@RequestParam Long id){
+        //根据id删除车辆维护信息
         return ResponseEntity.ok(carMaintenanceService.removeById(id));
     }
 
     @PutMapping
     public ResponseEntity<Boolean> update(@RequestBody CarMaintenance carMaintenance){
+        //更新车辆维护信息
         return ResponseEntity.ok(carMaintenanceService.updateById(carMaintenance));
     }
 
